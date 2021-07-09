@@ -1,24 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
-import Input from './Input';
+import Input from '../Input';
 
-const SemDetails = () => {
+const SemDetails = ({sem,setSem, dates, setDates}) => {
     const [newDateStart, setNewDateStart] = useState("01-08-2021");
     const [newDateEnd, setNewDateEnd] = useState("31-12-2021");
-    const [sem, setSem] = useState("odd")
-    const [dates, setDates] = useState({
-        startDate: newDateStart,
-        endDate: newDateEnd,
-        sem: sem
-    })
-    useEffect(() => {
-        console.log("effect");
-        axios.get('http://localhost:5000/dates').then(response => {
-            console.log(response.data)
-            setDates(response.data)
-        })
-    }, [])
-
+    
+    
    
     const addDate = (e) => {
         e.preventDefault();
