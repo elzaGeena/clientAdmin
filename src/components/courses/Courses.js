@@ -8,18 +8,14 @@ const Courses = ({ sem, courses, setCourses }) => {
     const [name, setName] = useState("")
     const [semester, setSemester] = useState(1)
     const [res, setRes] = useState([])
-
     const editHandler = (e) => {
         e.preventDefault();
         console.log("Hello", e)
-
     }
-
     useEffect(() => {
         children()
         console.log("Hello from semester")
     }, [semester, courses])
-
     const addCourse = (e) => {
         e.preventDefault();
         const courseObject = {
@@ -36,24 +32,22 @@ const Courses = ({ sem, courses, setCourses }) => {
             })
         setCode(" ")
         setName(" ")
-
     }
-
     const children = () => setRes(courses.filter(item => item.semester == semester))
-
     const result = res.map(course =>
-        <div><li key={course.id}>  {course.sem}  {course.courseName}  {course.courseCode}
-            <button id={course.id} onClick={editHandler} >Edit</button></li>
-
-        </div>)
+        <div><li key={course.id}>
+            {course.semester}
+            {course.courseName}
+            {course.courseCode}
+        <button id={course.id} onClick={editHandler} >Edit</button>
+        </li> </div>)
     return (
-
         <div >
             <h1>Course Information</h1>
             {result}
             <Select
                 heading="Course Info"
-                name="sem"id="sem"
+                name="sem" id="sem"
                 label="semester"
                 setOption={setSemester}
                 sem={sem} />
@@ -69,9 +63,6 @@ const Courses = ({ sem, courses, setCourses }) => {
                 newDetail={setName} />
 
             <button onClick={addCourse} >Add</button>
-
-
-
         </div>
     )
 }
