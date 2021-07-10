@@ -12,19 +12,19 @@ const Students = ({ sem, students, setStudents }) => {
     const addStudent = (e) => {
         e.preventDefault();
         const studentObject = {
-            id: Math.floor(Math.random()*30000),
+            //id: Math.floor(Math.random()*30000),
             semester: semester,
             rollNo: rollNo,
             regNo: regNo,
             name: name,
         }
-        setStudents(students.concat(studentObject))
-        console.log(students)
+      
 
         axios.post(`http://localhost:5000/students`, studentObject)
             .then(response => {
-                console.log(response)
-
+                console.log(response.data)
+                setStudents(students.concat(response.data))
+                console.log(students)
             })
         setRollNo("")
         setRegno("")
@@ -32,21 +32,21 @@ const Students = ({ sem, students, setStudents }) => {
     }
     const editHandler = (e) => {
         console.log(e.target.id)
-        let studentToEdit = students.filter(i => i.id == e.target.id)
+        let studentToEdit = students.filter(i => i._id == e.target.id)
         setRollNo(studentToEdit[0].rollNo)
         setRegno(studentToEdit[0].regNo)
         setName(studentToEdit[0].name)
-        setStudents(students.filter(f => f.id !== Number(e.target.id)))
+        setStudents(students.filter(f => f._id !== Number(e.target.id)))
         console.log("calling children", students)
     }
     
     const deleteHandler = (e)=>{
-        setStudents(students.filter(f => f.id !== Number(e.target.id)))
+        setStudents(students.filter(f => f._id !== Number(e.target.id)))
     }
     const result = students.map(student =>
         <li key={student.id}>{student.name}
-         <button id={student.id} onClick={editHandler} >Edit</button>
-         <button id={student.id} onClick={deleteHandler} >delete</button></li>)
+         <button id={student._id} onClick={editHandler} >Edit</button>
+         <button id={student._id} onClick={deleteHandler} >delete</button></li>)
     return (
         <div>
             <h1>Student Information</h1>

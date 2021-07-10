@@ -16,40 +16,41 @@ const Courses = ({ sem, courses, setCourses }) => {
     const addCourse = (e) => {
         e.preventDefault();
         const courseObject = {
-            id: courses.length,
+           // id: courses.length,
             semester: semester,
             courseCode: code,
             courseName: name,
         }
-        setCourses(courses.concat(courseObject))
-        console.log(courses)
+
         axios.post(`http://localhost:5000/courses`, courseObject)
             .then(response => {
-                console.log(response)
+                console.log(response.data)
+                setCourses(courses.concat(response.data))
+                console.log(courses)
             })
         setCode(" ")
         setName(" ")
     }
     const editHandler = (e) => {
         console.log(e.target.id)
-        let courseToEdit = courses.filter(i => i.id == e.target.id)
+        let courseToEdit = courses.filter(i => i._id == e.target.id)
         setCode(courseToEdit[0].courseCode)
         setName(courseToEdit[0].courseName)
-        setCourses(courses.filter(f => f.id !== Number(e.target.id)))
+        setCourses(courses.filter(f => f._id !== Number(e.target.id)))
         console.log("calling children", courses)
     }
-    const deleteHandler = (e)=>{
-        setCourses(courses.filter(f=> f.id !==Number(e.target.id)))
+    const deleteHandler = (e) => {
+        setCourses(courses.filter(f => f._id !== Number(e.target.id)))
     }
 
     const children = () => setRes(courses.filter(item => item.semester == semester))
     const result = res.map(course =>
-        <div><li key={course.id}>
+        <div><li key={course._id}>
             {course.semester}
             {course.courseName}
             {course.courseCode}
-            <button id={course.id} onClick={editHandler} >Edit</button>
-            <button id ={course.id} onClick={deleteHandler}>Delete</button>
+            <button id={course._id} onClick={editHandler} >Edit</button>
+            <button id={course._id} onClick={deleteHandler}>Delete</button>
         </li> </div>)
     return (
         <div >

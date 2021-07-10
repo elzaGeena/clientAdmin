@@ -21,20 +21,16 @@ const Faculties = ({ faculties, setFaculties, courseFetch }) => {
     const addFaculty = (e) => {
         e.preventDefault();
         const facultyObject = {
-            id: Math.floor(Math.random() * 30000),
             fId: fId,
             name: name,
             courses: courses
         }
-
-
-        setFaculties(faculties.concat(facultyObject))
-        console.log(faculties)
-
+        
         axios.post(`http://localhost:5000/faculties`, facultyObject)
             .then(response => {
-                console.log(response)
-
+                console.log(response.data)
+                setFaculties(faculties.concat(response.data))
+                console.log(faculties)
             })
 
         setFId("")
@@ -45,24 +41,24 @@ const Faculties = ({ faculties, setFaculties, courseFetch }) => {
 
     const editHandler = (e) => {
         console.log(e.target.id)
-        let facultyToEdit = faculties.filter(i => i.id == e.target.id)
+        let facultyToEdit = faculties.filter(i => i._id == e.target.id)
         setFId(facultyToEdit[0].fId)
         setName(facultyToEdit[0].name)
         setCourses([])
-        setFaculties(faculties.filter(f => f.id !== Number(e.target.id)))
+        setFaculties(faculties.filter(f => f._id !== Number(e.target.id)))
         console.log("calling children", faculties)
     }
     const deleteHandler = (e) => {
         console.log(e)
-        setFaculties(faculties.filter(f => f.id !== Number(e.target.id)))
+        setFaculties(faculties.filter(f => f._id !== Number(e.target.id)))
     }
 
     const options = courseFetch.map(item =>
         <option value={item.courseName} >{item.courseName}</option>)
     const result = faculties.map(faculty =>
         <li key={faculty.id}>  {faculty.name}
-            <button id={faculty.id} onClick={editHandler} >Edit</button>
-            <button id={faculty.id} onClick={deleteHandler} >Delete</button></li>
+            <button id={faculty._id} onClick={editHandler} >Edit</button>
+            <button id={faculty._id} onClick={deleteHandler} >Delete</button></li>
     )
     return (
         <div>

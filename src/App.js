@@ -18,9 +18,10 @@ function App() {
 
   useEffect(() => {
     console.log("effect");
-    axios.get('http://localhost:5000/dates').then(response => {
-            console.log(response.data)
+    axios.get('http://localhost:5000/semdetails').then(response => {
+            console.log("hellooo",response.data)
             setDates(response.data)
+            setSem(response.data.sem)
   })
     axios.get('http://localhost:5000/courses').then(response => {
         console.log(response.data)
@@ -44,7 +45,7 @@ function App() {
      <br/>
 
      <SemDetails sem={sem} setSem={setSem} dates={dates} setDates={setDates}/>
-     {/*<Students sem={sem} students={students} setStudents={setStudents}/>*/}
+     <Students sem={sem} students={students} setStudents={setStudents}/>
     </div>
   );
 }
