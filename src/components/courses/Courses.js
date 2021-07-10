@@ -8,10 +8,7 @@ const Courses = ({ sem, courses, setCourses }) => {
     const [name, setName] = useState("")
     const [semester, setSemester] = useState(1)
     const [res, setRes] = useState([])
-    const editHandler = (e) => {
-        e.preventDefault();
-        console.log("Hello", e)
-    }
+
     useEffect(() => {
         children()
         console.log("Hello from semester")
@@ -19,7 +16,7 @@ const Courses = ({ sem, courses, setCourses }) => {
     const addCourse = (e) => {
         e.preventDefault();
         const courseObject = {
-            id: courses.length + 1,
+            id: courses.length,
             semester: semester,
             courseCode: code,
             courseName: name,
@@ -33,13 +30,26 @@ const Courses = ({ sem, courses, setCourses }) => {
         setCode(" ")
         setName(" ")
     }
+    const editHandler = (e) => {
+        console.log(e.target.id)
+        let courseToEdit = courses.filter(i => i.id == e.target.id)
+        setCode(courseToEdit[0].courseCode)
+        setName(courseToEdit[0].courseName)
+        setCourses(courses.filter(f => f.id !== Number(e.target.id)))
+        console.log("calling children", courses)
+    }
+    const deleteHandler = (e)=>{
+        setCourses(courses.filter(f=> f.id !==Number(e.target.id)))
+    }
+
     const children = () => setRes(courses.filter(item => item.semester == semester))
     const result = res.map(course =>
         <div><li key={course.id}>
             {course.semester}
             {course.courseName}
             {course.courseCode}
-        <button id={course.id} onClick={editHandler} >Edit</button>
+            <button id={course.id} onClick={editHandler} >Edit</button>
+            <button id ={course.id} onClick={deleteHandler}>Delete</button>
         </li> </div>)
     return (
         <div >

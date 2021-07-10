@@ -37,12 +37,14 @@ function App() {
 }, []);
   return (
     <div>
-     hello admin
-     <SemDetails sem={sem} setSem={setSem} dates={dates} setDates={setDates}/>
-     <Courses sem={sem} courses={courses} setCourses={setCourses}/>
-     <Students sem={sem} students={students} setStudents={setStudents}/>
+     
      <Faculties faculties={faculties} setFaculties={setFaculties}
      courseFetch ={courses} />
+     <Courses sem={sem} courses={courses} setCourses={setCourses}/>
+     <br/>
+
+     <SemDetails sem={sem} setSem={setSem} dates={dates} setDates={setDates}/>
+     {/*<Students sem={sem} students={students} setStudents={setStudents}/>*/}
     </div>
   );
 }

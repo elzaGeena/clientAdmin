@@ -7,7 +7,7 @@ const Faculties = ({ faculties, setFaculties, courseFetch }) => {
     const [name, setName] = useState("")
     const [courseText, setCourseText] = useState("")
     const [courses, setCourses] = useState([])
-    const [placeholder,setPlaceholder] = useState("Add course")
+    const [placeholder, setPlaceholder] = useState("Add course")
     const courseTextChanger = (e) => {
         console.log(e.target.value)
         setCourseText(e.target.value)
@@ -21,7 +21,7 @@ const Faculties = ({ faculties, setFaculties, courseFetch }) => {
     const addFaculty = (e) => {
         e.preventDefault();
         const facultyObject = {
-            id: faculties.length + 1,
+            id: Math.floor(Math.random() * 30000),
             fId: fId,
             name: name,
             courses: courses
@@ -42,10 +42,28 @@ const Faculties = ({ faculties, setFaculties, courseFetch }) => {
         setCourses([])
         setPlaceholder("Add Course")
     }
+
+    const editHandler = (e) => {
+        console.log(e.target.id)
+        let facultyToEdit = faculties.filter(i => i.id == e.target.id)
+        setFId(facultyToEdit[0].fId)
+        setName(facultyToEdit[0].name)
+        setCourses([])
+        setFaculties(faculties.filter(f => f.id !== Number(e.target.id)))
+        console.log("calling children", faculties)
+    }
+    const deleteHandler = (e) => {
+        console.log(e)
+        setFaculties(faculties.filter(f => f.id !== Number(e.target.id)))
+    }
+
     const options = courseFetch.map(item =>
         <option value={item.courseName} >{item.courseName}</option>)
     const result = faculties.map(faculty =>
-        <li key={faculty.id}>  {faculty.name} </li>)
+        <li key={faculty.id}>  {faculty.name}
+            <button id={faculty.id} onClick={editHandler} >Edit</button>
+            <button id={faculty.id} onClick={deleteHandler} >Delete</button></li>
+    )
     return (
         <div>
             <h1>Faculty Information</h1>
