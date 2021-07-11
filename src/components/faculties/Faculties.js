@@ -25,7 +25,7 @@ const Faculties = ({ faculties, setFaculties, courseFetch }) => {
             name: name,
             courses: courses
         }
-        
+
         axios.post(`http://localhost:5000/faculties`, facultyObject)
             .then(response => {
                 console.log(response.data)
@@ -41,22 +41,24 @@ const Faculties = ({ faculties, setFaculties, courseFetch }) => {
 
     const editHandler = (e) => {
         console.log(e.target.id)
+
         let facultyToEdit = faculties.filter(i => i._id == e.target.id)
         setFId(facultyToEdit[0].fId)
         setName(facultyToEdit[0].name)
         setCourses([])
-        setFaculties(faculties.filter(f => f._id !== Number(e.target.id)))
-        console.log("calling children", faculties)
+
+        axios.delete(`http://localhost:5000/faculties/${e.target.id}`)
+            .then(response => setFaculties(faculties.filter(f => f._id !== e.target.id)))
     }
     const deleteHandler = (e) => {
-        console.log(e)
-        setFaculties(faculties.filter(f => f._id !== Number(e.target.id)))
-    }
+        axios.delete(`http://localhost:5000/faculties/${e.target.id}`)
+            .then(response => setFaculties(faculties.filter(f => f._id !== e.target.id)))
 
+    }
     const options = courseFetch.map(item =>
         <option value={item.courseName} >{item.courseName}</option>)
     const result = faculties.map(faculty =>
-        <li key={faculty.id}>  {faculty.name}
+        <li key={faculty._id}>  {faculty.name}
             <button id={faculty._id} onClick={editHandler} >Edit</button>
             <button id={faculty._id} onClick={deleteHandler} >Delete</button></li>
     )
@@ -68,26 +70,24 @@ const Faculties = ({ faculties, setFaculties, courseFetch }) => {
             <Input label="Faculty Id "
                 type="text" name="" id="fId"
                 placeholder="type id"
+                value={fId}
                 newDetail={setFId} />
 
 
             <Input label="Name "
+                value={name}
                 type="text" name="" id="name"
                 placeholder="type name ...."
                 newDetail={setName} />
 
             <label for="course">courses</label>
             <select name="course" id="course" onChange={courseTextChanger}>{options}</select>
-
             <button type="submit" onClick={courseChanger}>{placeholder}</button>
             <br />
-
             <button onClick={addFaculty} >Add faculty</button>
-
             <li>Fid:{fId} name:{name} Course Text: {courseText}
                 Course Added:{courses.map(course => <li>{course}</li>)}</li>
         </div>
     )
 }
-
 export default Faculties

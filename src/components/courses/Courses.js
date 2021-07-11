@@ -33,14 +33,15 @@ const Courses = ({ sem, courses, setCourses }) => {
     }
     const editHandler = (e) => {
         console.log(e.target.id)
-        let courseToEdit = courses.filter(i => i._id == e.target.id)
+        let courseToEdit = courses.filter(i => i._id ===e.target.id)
         setCode(courseToEdit[0].courseCode)
         setName(courseToEdit[0].courseName)
-        setCourses(courses.filter(f => f._id !== Number(e.target.id)))
-        console.log("calling children", courses)
+        axios.delete(`http://localhost:5000/courses/${e.target.id}`)
+        .then(response => setCourses(courses.filter(f => f._id !== e.target.id)))
     }
     const deleteHandler = (e) => {
-        setCourses(courses.filter(f => f._id !== Number(e.target.id)))
+        axios.delete(`http://localhost:5000/courses/${e.target.id}`)
+        .then(response => setCourses(courses.filter(f => f._id !== e.target.id)))
     }
 
     const children = () => setRes(courses.filter(item => item.semester == semester))

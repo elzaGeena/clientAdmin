@@ -39,12 +39,11 @@ function App() {
   return (
     <div>
      
-     <Faculties faculties={faculties} setFaculties={setFaculties}
+    <Faculties faculties={faculties} setFaculties={setFaculties}
      courseFetch ={courses} />
      <Courses sem={sem} courses={courses} setCourses={setCourses}/>
      <br/>
-
-     <SemDetails sem={sem} setSem={setSem} dates={dates} setDates={setDates}/>
+     {/*<SemDetails sem={sem} setSem={setSem} dates={dates} setDates={setDates}/>*/}
      <Students sem={sem} students={students} setStudents={setStudents}/>
     </div>
   );
